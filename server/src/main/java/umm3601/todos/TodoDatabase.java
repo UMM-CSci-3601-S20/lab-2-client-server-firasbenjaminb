@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.lang.Math;
+import java.lang.NumberFormatException;
 
 import com.google.gson.Gson;
 
@@ -38,7 +40,7 @@ public class TodoDatabase {
 
     // Filter by status if defined
     if (queryParams.containsKey("status")) {
-      String targetStatus = queryParams.get("status").get(0);
+      String targetStatus = queryParams.get("stimport java.exceNumberFormatException;atus").get(0);
       Boolean bTargetStatus;
 
       if (targetStatus.equals("complete")) {
@@ -52,6 +54,19 @@ public class TodoDatabase {
     if (queryParams.containsKey("contains")) {
       String targetBodyText = queryParams.get("contains").get(0);
       filteredTodos = filterTodosByBody(filteredTodos, targetBodyText);
+    }
+    // Filter number of todos if defined
+    if (queryParams.containsKey("limit")) {
+      String stringLimit = queryParams.get("limit").get(0);
+      /**
+       * May throw NumberFormatException
+       */
+      try{
+      int intLimit = Integer.parseInt(stringLimit);
+      filteredTodos = filterTodosByLimit(filteredTodos, intLimit);
+      }catch (NumberFormatException e) {
+      System.err.println("The string value cannot be parsed.");
+      }
     }
 
     return filteredTodos;
@@ -77,5 +92,21 @@ public class TodoDatabase {
    */
   public Todo[] filterTodosByStatus(Todo[] todos, Boolean targetStatus) {
     return Arrays.stream(todos).filter(x -> x.status == (targetStatus)).toArray(Todo[]::new);
+  }
+
+  /**
+   * Get an arra of all todos capped at some user input limit
+   * 
+   * @param todos list of todos to cap the number displayed
+   * @param intLimit  the user-specified number of todos to display
+   * @return an array of all the todos from the given list that fit within the limit
+   */
+  public Todo[] filterTodosByLimit(Todo[] todos, int intLimit) {
+    //making sure that the array stays within max bounds
+    if(intLimit > 300) intLimit = 300;
+    if(intLimit < -300) intLimit = 300;
+    if(intLimit < 0) intLimit = Math.abs(intLimit);
+    Todo[] limitedTodo = Arrays.copyOfRange(todos, 0, intLimit);
+    return limitedTodo;
   }
 }

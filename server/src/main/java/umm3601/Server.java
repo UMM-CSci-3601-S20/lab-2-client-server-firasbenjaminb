@@ -85,7 +85,6 @@ public class Server {
   } catch (IOException e) {
     System.err.println("The server failed to load the todo data; shutting down.");
     e.printStackTrace(System.err);
-
     // Exit from Java
     System.exit(1);
   }
