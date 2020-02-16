@@ -61,7 +61,7 @@ public class TodoDatabase {
    * Get an array of all the todos with a specified string in its body
    * 
    * @param todos
-   * @param targetStatus
+   * @param targetBodyText
    * @return an array of all todos that match query params
    */
   public Todo[] filterTodosByBody(Todo[] todos, String targetBodyText) {
