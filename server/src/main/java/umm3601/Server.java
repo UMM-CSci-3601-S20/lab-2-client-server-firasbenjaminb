@@ -4,19 +4,25 @@ import java.io.IOException;
 
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
+import umm3601.todos.Todo;
+import umm3601.todos.TodoController;
 import umm3601.user.Database;
 import umm3601.user.UserController;
+import umm3601.todos.TodoDatabase;
 
 public class Server {
 
   public static final String CLIENT_DIRECTORY = "../client";
   public static final String USER_DATA_FILE = "/users.json";
+  public static final String TODO_DATA_FILE = "/todos.json";
   private static Database userDatabase;
+  private static TodoDatabase todoDatabase;
 
   public static void main(String[] args) {
 
     // Initialize dependencies
     UserController userController = buildUserController();
+    TodoController todoController = buildTodoController();
 
     Javalin server = Javalin.create(config -> {
       // This tells the server where to look for static files,
@@ -33,12 +39,14 @@ public class Server {
     server.get("/todos", ctx -> ctx.redirect("/todos.html"));
 
     // API endpoints
-
     // Get specific user
     server.get("api/users/:id", ctx -> userController.getUser(ctx));
 
     // List users, filtered using query parameters
     server.get("api/users", ctx -> userController.getUsers(ctx));
+
+    //List todos, filtered using query parameters
+    server.get("api/todos", ctx -> todoController.getTodos(ctx));
   }
 
   /***
@@ -62,7 +70,25 @@ public class Server {
       // Exit from the Java program
       System.exit(1);
     }
-
     return userController;
+  }
+  /**
+   * Initializing todoController and trying to catch potential IOExceptions if
+   * it can't read from the JSON database file.
+   */
+  private static TodoController buildTodoController() {
+    TodoController todoController = null;
+
+    try {
+      todoDatabase = new TodoDatabase(TODO_DATA_FILE);
+      todoController = new TodoController(todoDatabase);
+  } catch (IOException e) {
+    System.err.println("The server failed to load the todo data; shutting down.");
+    e.printStackTrace(System.err);
+
+    // Exit from Java
+    System.exit(1);
+  }
+  return todoController;
   }
 }
