@@ -103,9 +103,8 @@ public class TodoDatabase {
    */
   public Todo[] filterTodosByLimit(Todo[] todos, int intLimit) {
     //making sure that the array stays within max bounds
-    if(intLimit > 300) intLimit = 300;
-    if(intLimit < -300) intLimit = 300;
-    if(intLimit < 0) intLimit = Math.abs(intLimit);
+    if(intLimit > todos.length) intLimit = todos.length;
+    if(intLimit < 0) intLimit = todos.length;
     Todo[] limitedTodo = Arrays.copyOfRange(todos, 0, intLimit);
     return limitedTodo;
   }
