@@ -25,6 +25,14 @@ get("/api/todos?contains=" + document.getElementById("contains").value, function
 })
 }
 
+function getAllTodosByLimit() {
+  console.log("Getting all the todos up to specified limit");
+
+get("/api/todos?limit=" + document.getElementById("limit").value, function (returned_json){
+  document.getElementById('jsonDump').innerHTML = returned_json;
+})
+}
+
 // gets todos from the api.
 // It adds the values of the various inputs to the requested URl to filter and order the returned todos.
 function getFilteredTodos() {
