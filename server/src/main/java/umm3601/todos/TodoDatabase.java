@@ -40,7 +40,7 @@ public class TodoDatabase {
 
     // Filter by status if defined
     if (queryParams.containsKey("status")) {
-      String targetStatus = queryParams.get("stimport java.exceNumberFormatException;atus").get(0);
+      String targetStatus = queryParams.get("status").get(0);
       Boolean bTargetStatus;
 
       if (targetStatus.equals("complete")) {
