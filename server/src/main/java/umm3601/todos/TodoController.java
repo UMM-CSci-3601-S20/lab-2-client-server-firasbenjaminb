@@ -8,21 +8,21 @@ import io.javalin.http.NotFoundResponse;
  */
 public class TodoController{
 
-    private Database database;
+    private TodoDatabase database;
     /**
      * Creating controller for todos
      * This loads the database of todo info from the json file and stores it internaly
      * so we can return user specified subsets of todos.
      * @param database our database of todo info
      */
-    public TodoController(Database database) {
+    public TodoController(TodoDatabase database) {
         this.database = database;
     }
 
     /**
      * Get a JSON response will a list of all the todos in our database
-     * 
-     * @param ctx 
+     *
+     * @param ctx
      */
     public void getTodos(Context ctx) {
         Todo[] todos = database.listTodos(ctx.queryParamMap());

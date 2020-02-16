@@ -13,14 +13,14 @@ import org.junit.jupiter.api.Test;
 public class FullTodoListFromDB {
     @Test
     public void totalTodoCount() throws IOException {
-        Database database = new Database("/todos.json");
+        TodoDatabase database = new TodoDatabase("/todos.json");
         Todo[] allTodos = database.listTodos(new HashMap<>());
         assertEquals(300, allTodos.length, "Incorrect total number of todos");
     }
 
     @Test
     public void firstTodoInFullList() throws IOException {
-        Database database = new Database("/todos.json");
+        TodoDatabase database = new TodoDatabase("/todos.json");
         Todo[] allTodos = database.listTodos(new HashMap<>());
         Todo firstTodo = allTodos[0];
         assertEquals("Blanche", firstTodo.owner, "Incorrect name" );

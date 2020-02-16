@@ -12,14 +12,14 @@ import com.google.gson.Gson;
  * Fake database of todos info
  * This will contain all the todos info needed for the TodosController method to be able to perform its tasks.
  */
-public class Database{
+public class TodoDatabase{
 
     private Todo[] allTodos;
 
-    public Database(String todoDataFile) throws IOException {
+    public TodoDatabase(String todoDataFile) throws IOException {
         Gson gson = new Gson();
         InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream(todoDataFile));
-        allTodos = gson.fromJson(reader, Todo[].class);//gson is turning the Json into our Todo class, which is storedin our allTodos array
+        allTodos = gson.fromJson(reader, Todo[].class);//gson is turning the Json into our Todo class, which is stored in our allTodos array
     }
 
     public int size() {
