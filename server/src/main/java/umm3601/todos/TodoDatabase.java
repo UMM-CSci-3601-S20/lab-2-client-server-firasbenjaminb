@@ -19,8 +19,7 @@ public class TodoDatabase {
   public TodoDatabase(String todoDataFile) throws IOException {
     Gson gson = new Gson();
     InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream(todoDataFile));
-    allTodos = gson.fromJson(reader, Todo[].class);// gson is turning the Json into our Todo class, which is stored in
-                                                   // our allTodos array
+    allTodos = gson.fromJson(reader, Todo[].class);// gson is turning the Json into our Todo class, which is stored in our allTodos array
   }
 
   public int size() {
@@ -59,7 +58,7 @@ public class TodoDatabase {
    * @param targetStatus desired status
    * @return an array of all todos who contain the desired status
    */
-  public Todo[] filterTodosByStatus(Todo[] todos, boolean targetStatus) {
+  public Todo[] filterTodosByStatus(Todo[] todos, Boolean targetStatus) {
     return Arrays.stream(todos).filter(x -> x.status == (targetStatus)).toArray(Todo[]::new);
   }
 }
