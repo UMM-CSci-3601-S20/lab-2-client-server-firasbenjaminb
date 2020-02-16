@@ -33,6 +33,14 @@ get("/api/todos?limit=" + document.getElementById("limit").value, function (retu
 })
 }
 
+function getAllTodosByOwner() {
+  console.log("Getting all the todos with the specified owner");
+
+get("/api/todos?owner=" + document.getElementById("owner").value, function (returned_json){
+  document.getElementById('jsonDump').innerHTML = returned_json;
+})
+}
+
 // gets todos from the api.
 // It adds the values of the various inputs to the requested URl to filter and order the returned todos.
 function getFilteredTodos() {
