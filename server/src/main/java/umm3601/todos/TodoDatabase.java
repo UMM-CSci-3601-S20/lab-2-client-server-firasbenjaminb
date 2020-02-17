@@ -2,7 +2,9 @@ package umm3601.todos;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.lang.Math;
@@ -65,6 +67,14 @@ public class TodoDatabase {
       String targetCategory = queryParams.get("category").get(0);
       filteredTodos = filterTodosByCategory(filteredTodos, targetCategory);
     }
+    
+    // Order by specified field
+    /*
+    if(queryParams.containsKey("orderBy")) {
+      String targetOrder = queryParams.get("orderBy").get(0);
+      filteredTodos = orderTodosByParameter(filteredTodos, targetOrder);
+    }*/
+
     // Filter number of todos if defined
     if (queryParams.containsKey("limit")) {
       String stringLimit = queryParams.get("limit").get(0);
@@ -113,6 +123,23 @@ public class TodoDatabase {
   public Todo[] filterTodosByOwner(Todo[] todos, String targetOwner) {
     return Arrays.stream(todos).filter(x -> x.owner.equalsIgnoreCase((targetOwner.replaceAll(" ", "")))).toArray(Todo[]::new);
   }
+  //sorts the todos by the target parameter alphabetically
+  /*
+  public Todo[] orderTodosByParameter(Todo[] todos, String targetOrder) {
+   if (targetOrder.equals("owner")){
+     Collections.sort(todos, new SortByOwner());
+   }
+   else if (targetOrder.equals("category")){
+     Collections.sort(todos, new SortByCategory());
+   }
+   else if (targetOrder.equals("body")){
+     Collections.sort(todos, new SortByBody());
+   }
+   /*else if (targetOrder.equals("status")){
+     Collections.sort(todos, new SortByStatus());
+   }
+    return todos;
+  }*/
 
   /**
    * Get an array of all todos with target category
