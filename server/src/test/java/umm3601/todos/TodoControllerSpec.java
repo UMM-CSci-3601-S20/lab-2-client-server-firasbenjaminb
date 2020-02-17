@@ -71,6 +71,23 @@ public class TodoControllerSpec {
   }
 
   @Test
+  public void GET_to_request_category_video_games_todos() throws IOException {
+
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put("category", Arrays.asList(new String[] { "video games" }));
+
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    todoController.getTodos(ctx);
+
+    // Confirm that all the todos passed to `json` have owner name Barry.
+    ArgumentCaptor<Todo[]> argument = ArgumentCaptor.forClass(Todo[].class);
+    verify(ctx).json(argument.capture());
+    for (Todo todo : argument.getValue()) {
+      assertEquals("video games", todo.category);
+    }
+  }
+
+  @Test
   public void GET_to_request_status_complete_todos() throws IOException {
 
     Map<String, List<String>> queryParams = new HashMap<>();
@@ -217,7 +234,9 @@ public void GET_to_request_todo_with_limit_negative_10() throws IOException {
     queryParams.put("owner", Arrays.asList(new String[] { "Barry" }));
     queryParams.put("contains", Arrays.asList(new String[] { "nisi" }));
     queryParams.put("status", Arrays.asList(new String[] { "complete" }));
+    queryParams.put("category", Arrays.asList(new String[] { "video games" }));
     queryParams.put("limit", Arrays.asList(new String[] { "rand" }));
+    
 
     when(ctx.queryParamMap()).thenReturn(queryParams);
     todoController.getTodos(ctx);
@@ -230,6 +249,7 @@ public void GET_to_request_todo_with_limit_negative_10() throws IOException {
       assertEquals("Barry", todo.owner);
       assertEquals(true, todo.status);
       assertEquals(true, todo.body.contains("nisi"));
+      assertEquals("video games", todo.category);
       //array should have a length that is <= to the limit, depending on whether it has enough entries
       assertEquals(argument.getValue().length <= rand, true);
     }

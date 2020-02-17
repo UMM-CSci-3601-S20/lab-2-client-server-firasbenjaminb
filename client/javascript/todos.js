@@ -41,6 +41,14 @@ get("/api/todos?owner=" + document.getElementById("owner").value, function (retu
 })
 }
 
+function getAllTodosByCategory() {
+  console.log("Getting all the todos with the specified category");
+
+get("/api/todos?category=" + document.getElementById("category").value, function (returned_json) {
+  document.getElementById('jsonDump').innerHTML = returned_json;
+})
+}
+
 // gets todos from the api.
 // It adds the values of the various inputs to the requested URl to filter and order the returned todos.
 function getFilteredTodos() {

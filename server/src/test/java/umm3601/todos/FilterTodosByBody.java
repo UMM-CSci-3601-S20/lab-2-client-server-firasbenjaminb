@@ -23,8 +23,5 @@ public class FilterTodosByBody {
     //note: nostrud proident actually occurs twice, but one instance has a capitalized n, which contains treats as a different char sequence
     Todo[] temporBody = tdb.filterTodosByBody(allTodos, "nostrud proident");
     assertEquals(1, temporBody.length, "Incorrect number of todos with nostrud proident in body");
-
-    Todo[] statusIncomplete = tdb.filterTodosByBody(allTodos, "in cillum");
-    assertEquals(5, statusIncomplete.length, "Incorrect number of todos with in cillum in body"); 
     }
 }
