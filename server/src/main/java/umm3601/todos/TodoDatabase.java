@@ -55,6 +55,11 @@ public class TodoDatabase {
       String targetBodyText = queryParams.get("contains").get(0);
       filteredTodos = filterTodosByBody(filteredTodos, targetBodyText);
     }
+    // Filter by owner if defined
+    if (queryParams.containsKey("owner")) {
+      String targetOwner = queryParams.get("owner").get(0);
+      filteredTodos = filterTodosByOwner(filteredTodos, targetOwner);
+    }
     // Filter number of todos if defined
     if (queryParams.containsKey("limit")) {
       String stringLimit = queryParams.get("limit").get(0);
@@ -92,6 +97,16 @@ public class TodoDatabase {
    */
   public Todo[] filterTodosByStatus(Todo[] todos, Boolean targetStatus) {
     return Arrays.stream(todos).filter(x -> x.status == (targetStatus)).toArray(Todo[]::new);
+  }
+
+  /**
+   * Get an array of all todos with target owner
+   * @param todos
+   * @param targetOwner
+   * @return an array of all todos with the desired owner
+   */
+  public Todo[] filterTodosByOwner(Todo[] todos, String targetOwner) {
+    return Arrays.stream(todos).filter(x -> x.owner.equalsIgnoreCase((targetOwner.replaceAll(" ", "")))).toArray(Todo[]::new);
   }
 
   /**
